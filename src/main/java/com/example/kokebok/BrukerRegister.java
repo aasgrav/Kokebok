@@ -1,12 +1,23 @@
 package com.example.kokebok;
 
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class BrukerRegister {
 
     //Bruke hashmap for brukere
 
-    public boolean eksistererBrukernavn (String brukernavn){
+    Map<String, Bruker> brukerRegister = new HashMap<>();
 
-        return
+
+
+/*
+    public boolean eksistererBrukernavn (String brukernavn){
+        //Må lage innhold her
+        return false;
     }
+*/
 
 }
