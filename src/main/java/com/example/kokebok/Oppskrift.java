@@ -7,12 +7,12 @@ public class Oppskrift {
     private String oppskriftstittel;
     private List<String> ingredienser;
     private List<String> allergier;
-    private String kategori;
+    private Kategori kategori;
     private String oppskriftstekst;
 
 
     //Constructors (override) - minimumsinfo er oppskriftstittel
-    public Oppskrift(String oppskriftstittel, List<String> ingredienser, List<String> allergier, String kategori, String oppskriftstekst) {
+    public Oppskrift(String oppskriftstittel, List<String> ingredienser, List<String> allergier, Kategori kategori, String oppskriftstekst) {
         this.oppskriftstittel = oppskriftstittel;
         this.ingredienser = ingredienser;
         this.allergier = allergier;
@@ -68,11 +68,11 @@ public class Oppskrift {
         this.allergier = allergier;
     }
 
-    public String getKategori() {
+    public Kategori getKategori() {
         return kategori;
     }
 
-    public void setKategori(String kategori) {
+    public void setKategori(Kategori kategori) {
         this.kategori = kategori;
     }
 
