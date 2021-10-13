@@ -6,4 +6,6 @@ public class Bruker {
     String brukernavn;
     String passord;
 
+
+
 }
