@@ -5,6 +5,8 @@
     <title>Forside</title>
 </head>
 <body>
-    <input th:action="/registrerBruker" type="submit">
+<form th:action="@{/bruker/registrer}" method="post">
+    <input type="submit" value="Submit">
+</form>
 </body>
 </html>
