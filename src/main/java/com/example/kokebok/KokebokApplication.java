@@ -15,12 +15,12 @@ public class KokebokApplication {
     }
 
 
-    @GetMapping("/forside")
+    @GetMapping("/")
     public String forsideGet() {
         return "forside";
     }
 
-    @PostMapping("/forside")
+    @PostMapping("/")
     public String forsidePost() {
         return "forside";
     }
