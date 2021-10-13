@@ -1,5 +1,7 @@
 package com.example.kokebok;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.HashMap;

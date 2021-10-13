@@ -5,6 +5,11 @@
     <title>Forside</title>
 </head>
 <body>
+<h1>Kokeboken</h1>
+<nav>
+    <a th:href="/">Forside</a>
+    <a th:ref="/oppskrifter">Oppskrifter</a>
+</nav>
 <form th:action="@{/bruker/registrer}" method="post">
     <input type="submit" value="Submit">
 </form>
