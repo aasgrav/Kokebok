@@ -8,9 +8,23 @@
 
 <h1>Registrer ny bruker</h1>
 
-<p>Legg inn brukernavn: </p>
-<p>Skriv inn passord: </p>
-<p>Gjenta passord: </p>
+<form action="bruker/registrer" method=POST>
+
+<!--    Kan på sikt legge inn fornavn og etternavn. Men da må disse bli stående igjen i koden hvis man
+lager et brukernavn som allerede er tatt i bruk-->
+
+    <label for="brukernavn">Brukernavn</label>
+    <input type = tekst id="brukernavn"> <br><br>
+
+    <label for="passord">Passord</label>
+    <input type="tekst" name="passord" id="passord"> <br><br>
+
+    <label for="gjentaPassord">Gjenta passord</label>
+    <input type="tekst" name="gjentaPassord" id="gjentaPassord" > <br><br>
+
+    <input type="submit" value=Registrer>
+
+</form>
 
 </body>
 </html>
