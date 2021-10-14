@@ -1,0 +1,41 @@
+html {
+    font-family: Tahoma, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    max-width: 768px;
+    background-color: beige;
+}
+
+.oppskriftslink {
+    text-decoration: none;
+    color: black;
+}
+
+nav a {
+    text-decoration: none;
+    color: grey;
+    padding-right: 20px;
+}
+
+.backlink {
+    text-decoration: none;
+    color: black;
+}
+
+.pagination {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: grey;
+}
+
+.currentPage {
+    color: black;
+}

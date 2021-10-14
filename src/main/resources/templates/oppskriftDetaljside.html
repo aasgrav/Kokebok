@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Oppskrift</title>
+    <link rel="stylesheet" th:href="@{/oppskriftDetaljside.css}">
 </head>
 <body>
-<nav>
-    <a th:href="'/forside'">Forside</a>
-    <a th:href="'/oppskrifter'">Oppskrifter</a>
-    <!--    <a th:href="'/logginn'">Logg inn</a>-->
-    <a th:href="'/bruker/registrer'">Registrer ny bruker</a>
-</nav>
-<div class="backlink">
-    <a th:href="'/oppskrifter?page=' + ${currentPage}">Tilbake til oppskrifter</a>
+<header>
+    <nav>
+        <a th:href="'/forside'">Forside</a>
+        <a th:href="'/oppskrifter'">Oppskrifter</a>
+        <!--    <a th:href="'/logginn'">Logg inn</a>-->
+        <a th:href="'/bruker/registrer'">Registrer ny bruker</a>
+    </nav>
+</header>
+<div>
+    <a class="backlink" th:href="'/oppskrifter?page=' + ${currentPage}">Tilbake til oppskrifter</a>
 </div>
-<h2 th:text="${currentOppskrift.oppskriftstittel}"></h2>
 <div class="oppskriftsinfo">
-    <h6>Kategori:</h6>
+    <h2 th:text="${currentOppskrift.oppskriftstittel}"></h2>
+    <h4>Kategori:</h4>
     <p th:text="${currentOppskrift.kategori}"></p>
-    <h6>Allergier:</h6>
+    <h4>Allergier:</h4>
     <p th:text="${currentOppskrift.allergier}"></p>
     <h4>Ingredienser:</h4>
     <p th:text="${currentOppskrift.ingredienser}"></p>

@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Oppskrifter</title>
+    <link rel="stylesheet" th:href="@{/oppskrifter.css}">
 </head>
 <body>
+    <header>
+        <nav>
+            <a th:href="'/forside'">Forside</a>
+            <a th:href="'/oppskrifter'">Oppskrifter</a>
+            <!--    <a th:href="'/logginn'">Logg inn</a>-->
+            <a th:href="'/bruker/registrer'">Registrer ny bruker</a>
+        </nav>
+    </header>
     <h1>Oppskrifter</h1>
-    <nav>
-        <a th:href="'/forside'">Forside</a>
-        <a th:href="'/oppskrifter'">Oppskrifter</a>
-        <!--    <a th:href="'/logginn'">Logg inn</a>-->
-        <a th:href="'/bruker/registrer'">Registrer ny bruker</a>
-    </nav>
     <div class="oppskrifter">
         <div th:each="oppskrift : ${oppskrifterOnPage}" class="oppskrifterInfoBox">
-            <a class="oppskrifter" th:href="'/oppskrift?page=' + ${currentPage} + '&oppskriftsnavn=' + ${oppskrift.oppskriftstittel}">
-                <p class="title" th:text="${oppskrift.oppskriftstittel}"></p>
+            <a class="oppskriftslink" th:href="'/oppskrift?page=' + ${currentPage} + '&oppskriftsnavn=' + ${oppskrift.oppskriftstittel}">
+                <p class="oppskriftstittel" th:text="${oppskrift.oppskriftstittel}"></p>
             </a>
         </div>
     </div>

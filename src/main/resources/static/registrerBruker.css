@@ -1,0 +1,15 @@
+html {
+    font-family: Tahoma, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    max-width: 768px;
+    background-color: beige;
+}
+
+nav a {
+    text-decoration: none;
+    color: grey;
+    padding-right: 20px;
+}
