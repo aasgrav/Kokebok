@@ -5,19 +5,25 @@
     <title>Oppskrift</title>
 </head>
 <body>
-<h2 th:text="${currentOppskrift.getOppskriftstittel()}"></h2>
+<nav>
+    <a th:href="'/forside'">Forside</a>
+    <a th:href="'/oppskrifter'">Oppskrifter</a>
+    <!--    <a th:href="'/logginn'">Logg inn</a>-->
+    <a th:href="'/bruker/registrer'">Registrer ny bruker</a>
+</nav>
+<div class="backlink">
+    <a th:href="'/oppskrifter?page=' + ${currentPage}">Tilbake til oppskrifter</a>
+</div>
+<h2 th:text="${currentOppskrift.oppskriftstittel}"></h2>
 <div class="oppskriftsinfo">
     <h6>Kategori:</h6>
-    <p th:text="${currentOppskrift.getKategori()}"></p>
+    <p th:text="${currentOppskrift.kategori}"></p>
     <h6>Allergier:</h6>
-    <p th:text="${currentOppskrift.getAllergier()}"></p>
+    <p th:text="${currentOppskrift.allergier}"></p>
     <h4>Ingredienser:</h4>
-    <p th:text="${currentOppskrift.getIngredienser()}"></p>
+    <p th:text="${currentOppskrift.ingredienser}"></p>
     <h4>Fremgangsmåte:</h4>
-    <p th:text="${currentOppskrift.getOppskriftstekst()}"></p>
-</div>
-<div class="backlink">
-    <a th:text="Tilbake til oversikten" th:href="'/?page=' + ${currentPage}"></a>
+    <p th:text="${currentOppskrift.oppskriftstekst}"></p>
 </div>
 </body>
 </html>
