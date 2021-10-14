@@ -24,9 +24,6 @@ public class KokebokApplication {
     @Autowired
     public OppskriftRegister oppskriftRegister;
 
-    @Autowired
-    public BrukerRegister brukerRegister;
-
     @GetMapping("/")
     public String forsideGet() {
         return "forside";
