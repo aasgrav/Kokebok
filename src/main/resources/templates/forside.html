@@ -10,11 +10,16 @@
 <nav>
     <a th:href="'/forside'">Forside</a>
     <a th:href="'/oppskrifter'">Oppskrifter</a>
-<!--    <a th:href="'/logginn'">Logg inn</a>-->
+    <a th:href="'/bruker/loggInn'">Logg inn</a>
     <a th:href="'/bruker/registrer'">Registrer ny bruker</a>
-    <div th:text="${session.innloggetBruker.getBrukernavn()}"></div>
 </nav>
 
+<div th:if="${session.innloggetBruker!=null}">
+    <p th:text="${session.innloggetBruker.getBrukernavn()}"></p>
+    <form action="/bruker/loggUt" method=POST>
+        <input type="submit" value="Logg ut">
+    </form>
+</div>
 
 </body>
 </html>
