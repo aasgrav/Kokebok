@@ -24,12 +24,12 @@ public class KokebokApplication {
     @Autowired
     public OppskriftRegister oppskriftRegister;
 
-    @GetMapping("/")
+    @GetMapping("/forside")
     public String forsideGet() {
         return "forside";
     }
 
-    @PostMapping("/")
+    @PostMapping("/forside")
     public String forsidePost() {
         return "forside";
     }
@@ -37,12 +37,19 @@ public class KokebokApplication {
 
     //Hovedside med oversikt over alle oppskrifter
     @GetMapping("/oppskrifter")
-    public String getPage (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page) {
+    public String oppskrifterGet (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page) {
         int pageSize = 10;
         model.addAttribute("oppskrifterOnPage",  oppskriftRegister.getPage(Integer.parseInt(page), pageSize));
         model.addAttribute("currentPage", Integer.parseInt(page));
         model.addAttribute("totalNumberOfPages", oppskriftRegister.numberOfPages(pageSize));
         return "oppskrifter";
+    }
+
+    @GetMapping("/oppskrift")
+    public String getOppskrift(Model model, @RequestParam String page, @RequestParam String oppskriftsnavn) {
+        model.addAttribute("currentOppskrift", oppskriftRegister.getOppskriftByName(oppskriftsnavn));
+        model.addAttribute("currentPage", page);
+        return "oppskriftDetaljside";
     }
 
 

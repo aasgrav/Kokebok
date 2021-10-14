@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Oppskrift</title>
 </head>
 <body>
-
+<h2 th:text="${currentOppskrift.getOppskriftstittel()}"></h2>
+<div class="oppskriftsinfo">
+    <h6>Kategori:</h6>
+    <p th:text="${currentOppskrift.getKategori()}"></p>
+    <h6>Allergier:</h6>
+    <p th:text="${currentOppskrift.getAllergier()}"></p>
+    <h4>Ingredienser:</h4>
+    <p th:text="${currentOppskrift.getIngredienser()}"></p>
+    <h4>Fremgangsmåte:</h4>
+    <p th:text="${currentOppskrift.getOppskriftstekst()}"></p>
+</div>
+<div class="backlink">
+    <a th:text="Tilbake til oversikten" th:href="'/?page=' + ${currentPage}"></a>
+</div>
 </body>
 </html>
