@@ -21,9 +21,19 @@
         </div>
     </header>
     <h1>Oppskrifter</h1>
+    <form th:action="'/oppskrifter?page=' + ${currentPage}" method=POST>
+        <label for="allergi">Allergi: </label>
+        <select name="allergi" id="allergi">
+            <option th:value="None"></option>
+            <option th:value="Nøtter">Nøtter</option>
+            <option th:value="Gluten">Gluten</option>
+            <option th:value="Laktose">Laktose</option>
+        </select>
+        <input type="submit" value="Filtrer">
+    </form>
     <div class="oppskrifter">
         <div th:each="oppskrift : ${oppskrifterOnPage}" class="oppskrifterInfoBox">
-            <a class="oppskriftslink" th:href="'/oppskrift?page=' + ${currentPage} + '&oppskriftsnavn=' + ${oppskrift.oppskriftstittel}">
+            <a th:if="${!oppskrift.allergier.contains(session.allergi)}" class="oppskriftslink" th:href="'/oppskrift?page=' + ${currentPage} + '&oppskriftsnavn=' + ${oppskrift.oppskriftstittel}">
                 <p class="oppskriftstittel" th:text="${oppskrift.oppskriftstittel}"></p>
             </a>
         </div>

@@ -30,7 +30,6 @@ public class BrukerRegister {
 
     @GetMapping("/registrer")
     public String registrerBruker() {
-        System.out.println("test");
         return "registrerBruker";
     }
 

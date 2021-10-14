@@ -9,13 +9,13 @@ public class Oppskrift {
 
     private String oppskriftstittel;
     private List<String> ingredienser;
-    private List<String> allergier;
+    private String allergier;
     private Kategori kategori;
     private String oppskriftstekst;
 
 
     //Constructors (override) - minimumsinfo er oppskriftstittel
-    public Oppskrift(String oppskriftstittel, List<String> ingredienser, List<String> allergier, Kategori kategori, String oppskriftstekst) {
+    public Oppskrift(String oppskriftstittel, List<String> ingredienser, String allergier, Kategori kategori, String oppskriftstekst) {
         this.oppskriftstittel = oppskriftstittel;
         this.ingredienser = ingredienser;
         this.allergier = allergier;
@@ -23,7 +23,7 @@ public class Oppskrift {
         this.oppskriftstekst = oppskriftstekst;
     }
 
-    public Oppskrift(String oppskriftstittel, List<String> ingredienser, List<String> allergier, String oppskriftstekst) {
+    public Oppskrift(String oppskriftstittel, List<String> ingredienser, String allergier, String oppskriftstekst) {
         this.oppskriftstittel = oppskriftstittel;
         this.ingredienser = ingredienser;
         this.allergier = allergier;
@@ -63,11 +63,11 @@ public class Oppskrift {
         this.ingredienser = ingredienser;
     }
 
-    public List<String> getAllergier() {
+    public String getAllergier() {
         return allergier;
     }
 
-    public void setAllergier(List<String> allergier) {
+    public void setAllergier(String allergier) {
         this.allergier = allergier;
     }
 
