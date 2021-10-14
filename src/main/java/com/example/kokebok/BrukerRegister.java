@@ -44,7 +44,7 @@ public class BrukerRegister {
  */
         System.out.println("brukernavn:" + brukernavn + " passord: " + passord + " gjentaPasord: " + gjentaPassord);
 
-        if (eksistererBrukernavn(brukernavn) || !(passord.equals(gjentaPassord))) {
+        if (!brukerService.sjekkBrukerData(brukernavn, passord, gjentaPassord)) {
             return "registrerBruker";
         } else {
             brukere.put(brukernavn, new Bruker(brukernavn, passord));
@@ -59,7 +59,6 @@ public class BrukerRegister {
     }
 
     @PostMapping("/loggInn")
-
     public String loggInn(@RequestParam String brukernavn, @RequestParam String passord, HttpSession session) {
 
         if (eksistererBrukernavn(brukernavn) && brukere.get(brukernavn).passord.equals(passord)) {
