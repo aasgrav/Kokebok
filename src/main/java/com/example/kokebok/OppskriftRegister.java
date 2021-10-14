@@ -1,9 +1,11 @@
 package com.example.kokebok;
 
+import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -12,8 +14,21 @@ public class OppskriftRegister {
     private List<Oppskrift> oppskriftListe = new ArrayList<>();
 
     public OppskriftRegister() {
+//        Faker faker = new Faker();
+        List<String> ingredienser = new ArrayList<String>();
+        ingredienser.add("Smør");
+        ingredienser.add("Egg");
+        ingredienser.add("Sukker");
+        ingredienser.add("Mel");
+
+        List<String> allergier = new ArrayList<String>();
+        allergier.add("Nøtter");
+        allergier.add("Gluten");
+        allergier.add("Laktose");
+        allergier.add("");
+
         for (int i = 1; i <= 50; i++) {
-            oppskriftListe.add(new Oppskrift("Oppskrift" + i));
+            oppskriftListe.add(new Oppskrift("Oppskrift " + i, ingredienser, allergier.get(i % 4)));
         }
     }
 
