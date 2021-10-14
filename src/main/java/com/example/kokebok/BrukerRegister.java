@@ -15,12 +15,13 @@ public class BrukerRegister {
 
     //Bruke hashmap til liste over alle brukere. String er brukernavn og unik key. Bruker er objektet bruker.
     Map<String, Bruker> brukere;
-    BrukerService brukerService;
+
+/*    BrukerService brukerService;
 
     public BrukerRegister(BrukerService brukerService) {
         this.brukerService = brukerService;
         Map<String, Bruker> brukerRegister = new HashMap<>();
-    }
+    }*/
 
     private boolean eksistererBrukernavn(String brukernavn) {
         //Sjekk om brukernavn allerede ligger i lista.
@@ -30,6 +31,7 @@ public class BrukerRegister {
 
     @GetMapping("/registrer")
     public String registrerBruker() {
+        System.out.println("test");
         return "registrerBruker";
     }
 
@@ -48,6 +50,5 @@ public class BrukerRegister {
             return "redirect:/forside";
         }
     }
-
 
 }
