@@ -75,6 +75,13 @@ public class BrukerRegister {
         return "redirect:/bruker/registrer";
     }
 
+    @PostMapping("/loggUt")
+    public String loggUt(HttpSession session){
+        session.setAttribute("innloggetBruker", null);
+        return "redirect:/forside";
+    }
+
+
 }
 
 
