@@ -45,6 +45,8 @@ public class KokebokApplication {
         return "oppskrifter";
     }
 
+
+    //Detaljside for enkeltoppskrift
     @GetMapping("/oppskrift")
     public String getOppskrift(Model model, @RequestParam String page, @RequestParam String oppskriftsnavn) {
         model.addAttribute("currentOppskrift", oppskriftRegister.getOppskriftByName(oppskriftsnavn));
