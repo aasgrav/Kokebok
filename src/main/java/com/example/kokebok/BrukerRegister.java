@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -15,25 +14,11 @@ import java.util.Map;
 public class BrukerRegister {
 
     //Bruke hashmap til liste over alle brukere. String er brukernavn og unik key. Bruker er objektet bruker.
-    Map<String, Bruker> brukere;
-    List <Oppskrift> oppskriftListeFavBruk;
+
+    Map<String, Bruker> brukere = new HashMap<>();
 
     @Autowired OppskriftRegister oppskriftRegister;
 
-//    BrukerService brukerService;
-
-    public BrukerRegister(List <Oppskrift> oppskriftListeFavBruk) {
-//        this.brukerService = brukerService;
-        this.brukere = new HashMap<>();
-        this.oppskriftListeFavBruk = oppskriftListeFavBruk;
-    }
-
-    public List <Oppskrift> getOppskriftListeFavBruk() {
-        return oppskriftListeFavBruk;
-    }
-    public void setOppskriftListeFavBruk(List <Oppskrift> oppskriftListeFavBruk) {
-        this.oppskriftListeFavBruk = oppskriftListeFavBruk;
-    }
 
     //Sjekker om brukernavn allerede ligger i lista ved opprettelse av ny bruker
     private boolean eksistererBrukernavn(String brukernavn) {
@@ -51,7 +36,7 @@ public class BrukerRegister {
     @PostMapping("/registrer")
     public String registrerBruker(HttpSession session, @RequestParam String brukernavn, @RequestParam String passord, @RequestParam String gjentaPassord) { //Her fungerte ikke PathVariable
 
-        if (!brukerService.sjekkBrukerData(brukernavn, passord, gjentaPassord)) {
+        if (!BrukerService.sjekkBrukerData(brukernavn, passord, gjentaPassord)) {
             return "registrerBruker";
         } else {
             brukere.put(brukernavn, new Bruker(brukernavn, passord));
@@ -91,19 +76,6 @@ public class BrukerRegister {
     }
 
 
-//Skal brukers til mineLister siden som ikke er oppe og kjører enda
-    public List<Oppskrift> getPageMine(int page, int pageSize) {
-        int from = Math.max(0,(page-1)*pageSize);
-        int to = Math.min(oppskriftListeFavBruk.size(),(page)*pageSize);
-
-        return oppskriftListeFavBruk.subList(from, to);
-    }
-
-    public int numberOfPages(int pageSize) {
-        return (int)Math.ceil((double) oppskriftListeFavBruk.size() / pageSize);
-    }
-
-
 
     @GetMapping ("/mineLister")
     public String tilMinListe(){
@@ -116,6 +88,7 @@ public class BrukerRegister {
 
         Bruker bruker = (Bruker) session.getAttribute("innloggetBruker");
         Oppskrift oppskrift = oppskriftRegister.getOppskriftByName(oppskriftTittel);
+        //Burde sjekke om oppskriften allerede er liket
         bruker.getFavorittOppskrifter().add(oppskrift);
 
         return "redirect:/oppskrift?page="+page+"&oppskriftsnavn="+oppskriftTittel;
@@ -125,10 +98,11 @@ public class BrukerRegister {
     //Side med markerte favorittoppskrifter
     @GetMapping("/mineOppskrifter")
     public String mineOppskrifterGet (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page) {
-      /*  int pageSize = 10;
-        model.addAttribute("oppskrifterOnPageMine",  getPage(Integer.parseInt(page), pageSize));
-        model.addAttribute("currentPageMine", Integer.parseInt(page));
-        model.addAttribute("totalNumberOfPagesMine", numberOfPages(pageSize));*/
+        int pageSize = 10;
+        Bruker bruker = (Bruker)session.getAttribute("innloggetBruker");
+        session.setAttribute("oppskrifterOnPageMine", oppskriftRegister.getPage(Integer.parseInt(page), pageSize,bruker.getFavorittOppskrifter()));
+        session.setAttribute("currentPageMine", Integer.parseInt(page));
+        session.setAttribute("totalNumberOfPagesMine", oppskriftRegister.numberOfPages(pageSize, bruker.getFavorittOppskrifter()));
         return "mineOppskrifter";
     }
 

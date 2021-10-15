@@ -22,20 +22,20 @@
     </header>
     <h1>Favoriserte oppskrifter</h1>
     <div class="oppskrifter">
-        <div th:each="oppskrift : ${oppskrifterOnPage}" class="oppskrifterInfoBox">
-            <a class="oppskriftslink" th:href="'/oppskrift?page=' + ${currentPage} + '&oppskriftsnavn=' + ${oppskrift.oppskriftstittel}">
+        <div th:each="oppskrift : ${session.oppskrifterOnPageMine}" class="oppskrifterInfoBox">
+            <a class="oppskriftslink" th:href="'/oppskrift?page=' + ${session.currentPageMine} + '&oppskriftsnavn=' + ${oppskrift.oppskriftstittel}">
                 <p class="oppskriftstittel" th:text="${oppskrift.oppskriftstittel}"></p>
             </a>
         </div>
     </div>
     <div class="pagination">
-        <a th:if="${currentPage > 1}" th:href="'/oppskrifter?page=' + ${currentPage - 1}">Previous page</a>
+        <a th:if="${session.currentPageMine > 1}" th:href="'/oppskrifter?page=' + ${session.currentPageMine - 1}">Previous page</a>
         <span>&nbsp;&nbsp;</span>
-        <a th:if="${currentPage > 1}" th:each="page : ${#numbers.sequence(1,currentPage - 1)}" th:text="${page}" th:href="'/oppskrifter?page=' + ${page}"></a>
-        <span class="currentPage" th:text="${currentPage}"></span>
-        <a th:if="${currentPage < totalNumberOfPages}" th:each="page : ${#numbers.sequence(currentPage + 1,totalNumberOfPages)}" th:text="${page}" th:href="'/oppskrifter?page=' + ${page}"></a>
+        <a th:if="${session.currentPageMine > 1}" th:each="page : ${#numbers.sequence(1,session.currentPageMine - 1)}" th:text="${page}" th:href="'/oppskrifter?page=' + ${page}"></a>
+        <span class="currentPageMine" th:text="${session.currentPageMine}"></span>  <!--SKal class ha currentPageMINE?-->
+        <a th:if="${session.currentPageMine < session.totalNumberOfPagesMine}" th:each="page : ${#numbers.sequence(session.currentPageMine + 1,session.totalNumberOfPagesMine)}" th:text="${page}" th:href="'/oppskrifter?page=' + ${page}"></a>
         <span>&nbsp;&nbsp;</span>
-        <a th:if="${currentPage < totalNumberOfPages}" th:href="'/oppskrifter?page=' + ${currentPage + 1}">Next page</a>
+        <a th:if="${session.currentPageMine < session.totalNumberOfPagesMine}" th:href="'/oppskrifter?page=' + ${session.currentPageMine + 1}">Next page</a>
     </div>
 </body>
 </html>
