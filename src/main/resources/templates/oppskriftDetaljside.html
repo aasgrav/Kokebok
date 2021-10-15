@@ -19,6 +19,12 @@
         <form action="/bruker/loggUt" method=POST>
             <input type="submit" value="Logg ut">
         </form>
+        <form action="/bruker/favoriserOppskrift" method=POST>
+            currentOppskrift
+            <input type="hidden" name="oppskriftTittel" th:value="${currentOppskrift.oppskriftstittel}">
+            <input type="hidden" name="page" th:value="${currentPage}">
+            <input type="submit" value="Favoriser">
+        </form>
     </div>
 
 </header>

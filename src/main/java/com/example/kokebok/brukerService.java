@@ -19,8 +19,6 @@ public class brukerService {
         if(!passord.matches(".*\\d.*")){
             reglerOverholdt = false;
         }
-
         return reglerOverholdt;
     }
-
 }
