@@ -98,4 +98,14 @@ public class OppskriftRegister {
         return "oppskriftDetaljside";
     }
 
+    //Side med markerte favorittoppskrifter
+    @GetMapping("/mineOppskrifter")
+    public String mineOppskrifterGet (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page) {
+        int pageSize = 10;
+        model.addAttribute("oppskrifterOnPage",  getPage(Integer.parseInt(page), pageSize));
+        model.addAttribute("currentPage", Integer.parseInt(page));
+        model.addAttribute("totalNumberOfPages", numberOfPages(pageSize));
+        return "oppskrifter";
+    }
+
 }
