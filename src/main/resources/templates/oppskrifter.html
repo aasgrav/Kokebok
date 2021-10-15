@@ -24,10 +24,10 @@
     <form th:action="'/oppskrifter?page=' + ${currentPage}" method=POST>
         <label for="allergi">Allergi: </label>
         <select name="allergi" id="allergi">
-            <option th:value="None"></option>
-            <option th:value="Nøtter">Nøtter</option>
-            <option th:value="Gluten">Gluten</option>
-            <option th:value="Laktose">Laktose</option>
+            <option th:selected="${session.allergi == '   '}" value="   ">   </option>
+            <option th:selected="${session.allergi == 'Nøtter'}" value="Nøtter">Nøtter</option>
+            <option th:selected="${session.allergi == 'Gluten'}" value="Gluten">Gluten</option>
+            <option th:selected="${session.allergi == 'Laktose'}" value="Laktose">Laktose</option>
         </select>
         <input type="submit" value="Filtrer">
     </form>

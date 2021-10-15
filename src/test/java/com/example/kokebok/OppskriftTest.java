@@ -19,9 +19,8 @@ public class OppskriftTest {
 
     @BeforeEach
     public void setup() {
-        KokebokApplication kb = new KokebokApplication();
-        kb.oppskriftRegister = new OppskriftRegister();
-        mockMvc = MockMvcBuilders.standaloneSetup(kb).build();
+        OppskriftRegister oppskriftRegister = new OppskriftRegister();
+        mockMvc = MockMvcBuilders.standaloneSetup(oppskriftRegister).build();
     }
 
 
