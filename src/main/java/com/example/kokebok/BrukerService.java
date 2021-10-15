@@ -2,7 +2,7 @@ package com.example.kokebok;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
-public class brukerService {
+public class BrukerService {
 
     public static boolean sjekkBrukerData(String brukernavn, String passord, String gjentaPassord){ //usikker på om vi skal beholde denne som static
         boolean reglerOverholdt =true;
