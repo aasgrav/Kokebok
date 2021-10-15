@@ -21,13 +21,13 @@ public class KokebokApplication {
         SpringApplication.run(KokebokApplication.class, args);
     }
 
-    @Autowired
-    public OppskriftRegister oppskriftRegister;
+//    @Autowired
+//    public OppskriftRegister oppskriftRegister;
 
     @GetMapping("/forside")
     public String forsideGet(HttpSession session) {
         if (session.isNew()) {
-            session.setAttribute("allergi", "ingenting");
+            session.setAttribute("allergi", "   ");
         }
         return "forside";
     }
