@@ -1,12 +1,13 @@
 package com.example.kokebok;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -15,36 +16,40 @@ public class BrukerRegister {
 
     //Bruke hashmap til liste over alle brukere. String er brukernavn og unik key. Bruker er objektet bruker.
     Map<String, Bruker> brukere;
-    OppskriftRegister oppskriftRegister;
+    List <Oppskrift> oppskriftListeFavBruk;
+
+    @Autowired OppskriftRegister oppskriftRegister;
 
 //    BrukerService brukerService;
 
-    public BrukerRegister(OppskriftRegister oppskriftRegister) {
+    public BrukerRegister(List <Oppskrift> oppskriftListeFavBruk) {
 //        this.brukerService = brukerService;
         this.brukere = new HashMap<>();
-        this.oppskriftRegister = oppskriftRegister;
+        this.oppskriftListeFavBruk = oppskriftListeFavBruk;
     }
 
+    public List <Oppskrift> getOppskriftListeFavBruk() {
+        return oppskriftListeFavBruk;
+    }
+    public void setOppskriftListeFavBruk(List <Oppskrift> oppskriftListeFavBruk) {
+        this.oppskriftListeFavBruk = oppskriftListeFavBruk;
+    }
+
+    //Sjekker om brukernavn allerede ligger i lista ved opprettelse av ny bruker
     private boolean eksistererBrukernavn(String brukernavn) {
-        //Sjekker om brukernavn allerede ligger i lista.
         if (brukere.containsKey(brukernavn)) return true;
         else return false;
     }
 
+    //Sender oss til registrering av ny bruker siden
     @GetMapping("/registrer")
     public String registrerBruker() {
         return "registrerBruker";
     }
 
+    //Registrerer ny bruker.
     @PostMapping("/registrer")
     public String registrerBruker(HttpSession session, @RequestParam String brukernavn, @RequestParam String passord, @RequestParam String gjentaPassord) { //Her fungerte ikke PathVariable
-/* if (brukerService.save(new User()) {
-        return "redirect:/forside"}
-    else {
-        return "registrerBruker";
-    }
- */
-        System.out.println("brukernavn:" + brukernavn + " passord: " + passord + " gjentaPasord: " + gjentaPassord);
 
         if (!brukerService.sjekkBrukerData(brukernavn, passord, gjentaPassord)) {
             return "registrerBruker";
@@ -82,6 +87,21 @@ public class BrukerRegister {
         return "redirect:/forside";
     }
 
+
+
+    public List<Oppskrift> getPageMine(int page, int pageSize) {
+        int from = Math.max(0,(page-1)*pageSize);
+        int to = Math.min(oppskriftListeFavBruk.size(),(page)*pageSize);
+
+        return oppskriftListeFavBruk.subList(from, to);
+    }
+
+    public int numberOfPages(int pageSize) {
+        return (int)Math.ceil((double) oppskriftListeFavBruk.size() / pageSize);
+    }
+
+
+
     @GetMapping ("/mineLister")
     public String tilMinListe(){
         return "mineOppskrifter";
@@ -91,11 +111,27 @@ public class BrukerRegister {
     public String favoriserOppskrift(@RequestParam String oppskriftTittel, @RequestParam String page, HttpSession session){
 
         Bruker bruker = (Bruker) session.getAttribute("innloggetBruker");
+        //Oppskrift oppskrift = oppskriftListeFavBruk.getOppskriftByName(oppskriftTittel);
+
         Oppskrift oppskrift = oppskriftRegister.getOppskriftByName(oppskriftTittel);
+
         bruker.getFavorittOppskrifter().add(oppskrift);
 
         return "redirect:/oppskrift?page="+page+"&oppskriftsnavn="+oppskriftTittel;
     }
+
+    //Side med markerte favorittoppskrifter
+    @GetMapping("/mineOppskrifter")
+    public String mineOppskrifterGet (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page) {
+        int pageSize = 10;
+        model.addAttribute("oppskrifterOnPageMine",  getPage(Integer.parseInt(page), pageSize));
+        model.addAttribute("currentPageMine", Integer.parseInt(page));
+        model.addAttribute("totalNumberOfPagesMine", numberOfPages(pageSize));
+        return "mineOppskrifter";
+    }
+
+
+
 
 }
 

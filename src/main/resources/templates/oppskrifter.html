@@ -12,6 +12,9 @@
             <a th:href="'/oppskrifter'">Oppskrifter</a>
             <a th:href="'/bruker/loggInn'">Logg inn</a>
             <a th:href="'/bruker/registrer'">Registrer ny bruker</a>
+            <div th:if="${session.innloggetBruker!=null}">
+                <p th:href='/mineOppskrifter'>Mine favoriserte oppskrifter</p>
+            </div>
         </nav>
         <div th:if="${session.innloggetBruker!=null}">
             <p th:text="${session.innloggetBruker.getBrukernavn()}"></p>
