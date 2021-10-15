@@ -9,7 +9,7 @@
     <header>
         <nav>
             <a th:href="'/forside'">Forside</a>
-            <a th:href="'/oppskrifter'">Oppskrifter</a>
+<!--            <a th:href="'/oppskrifter'">Oppskrifter</a>-->
             <a th:href="'/bruker/loggInn'">Logg inn</a>
             <a th:href="'/bruker/registrer'">Registrer ny bruker</a>
             <div th:if="${session.innloggetBruker!=null}">
@@ -24,7 +24,7 @@
         </div>
     </header>
     <h1>Oppskrifter</h1>
-    <form th:action="'/oppskrifter?page=' + ${currentPage}" method=POST>
+    <form th:action="'/oppskrifter?page=' + ${session.currentPage}" method=POST>
         <label for="allergi">Allergi: </label>
         <select name="allergi" id="allergi">
             <option th:selected="${session.allergi == '   '}" value="   ">   </option>
@@ -35,20 +35,20 @@
         <input type="submit" value="Filtrer">
     </form>
     <div class="oppskrifter">
-        <div th:each="oppskrift : ${oppskrifterOnPage}" class="oppskrifterInfoBox">
-            <a th:if="${!oppskrift.allergier.contains(session.allergi)}" class="oppskriftslink" th:href="'/oppskrift?page=' + ${currentPage} + '&oppskriftsnavn=' + ${oppskrift.oppskriftstittel}">
-                <p class="oppskriftstittel" th:text="${oppskrift.oppskriftstittel}"></p>
+        <div th:each="oppskrift : ${session.oppskrifterOnPage}" class="oppskrifterInfoBox">
+            <a th:if="${!oppskrift.getAllergier().contains(session.allergi)}" class="oppskriftslink" th:href="'/oppskrift?page=' + ${session.currentPage} + '&oppskriftsnavn=' + ${oppskrift.getOppskriftstittel()}">
+                <p class="oppskriftstittel" th:text="${oppskrift.getOppskriftstittel()}"></p>
             </a>
         </div>
     </div>
     <div class="pagination">
-        <a th:if="${currentPage > 1}" th:href="'/oppskrifter?page=' + ${currentPage - 1}">Previous page</a>
+        <a th:if="${session.currentPage > 1}" th:href="'/oppskrifter?page=' + ${session.currentPage - 1}">Previous page</a>
         <span>&nbsp;&nbsp;</span>
-        <a th:if="${currentPage > 1}" th:each="page : ${#numbers.sequence(1,currentPage - 1)}" th:text="${page}" th:href="'/oppskrifter?page=' + ${page}"></a>
-        <span class="currentPage" th:text="${currentPage}"></span>
-        <a th:if="${currentPage < totalNumberOfPages}" th:each="page : ${#numbers.sequence(currentPage + 1,totalNumberOfPages)}" th:text="${page}" th:href="'/oppskrifter?page=' + ${page}"></a>
+        <a th:if="${session.currentPage > 1}" th:each="page : ${#numbers.sequence(1,session.currentPage - 1)}" th:text="${page}" th:href="'/oppskrifter?page=' + ${page}"></a>
+        <span class="currentPage" th:text="${session.currentPage}"></span>
+        <a th:if="${session.currentPage < session.totalNumberOfPages}" th:each="page : ${#numbers.sequence(session.currentPage + 1,session.totalNumberOfPages)}" th:text="${page}" th:href="'/oppskrifter?page=' + ${page}"></a>
         <span>&nbsp;&nbsp;</span>
-        <a th:if="${currentPage < totalNumberOfPages}" th:href="'/oppskrifter?page=' + ${currentPage + 1}">Next page</a>
+        <a th:if="${session.currentPage < session.totalNumberOfPages}" th:href="'/oppskrifter?page=' + ${session.currentPage + 1}">Next page</a>
     </div>
 </body>
 </html>

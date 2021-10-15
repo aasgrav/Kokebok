@@ -19,6 +19,7 @@ public class OppskriftRegister {
 
     private List<Oppskrift> oppskriftListe = new ArrayList<>();
 
+    //Oppretting av oppskriftsregister
     public OppskriftRegister() {
 //        Faker faker = new Faker();
         List<String> ingredienser = new ArrayList<String>();
@@ -46,17 +47,20 @@ public class OppskriftRegister {
         return oppskriftListe;
     }
 
-    public List<Oppskrift> getPage(int page, int pageSize) {
+    //Hente ut en side med en viss mengde oppskrifter (f.eks. side 2 med oppskrift 10-19)
+    public List<Oppskrift> getPage(int page, int pageSize, List<Oppskrift> oppskriftregister) {
         int from = Math.max(0,(page-1)*pageSize);
-        int to = Math.min(oppskriftListe.size(),(page)*pageSize);
+        int to = Math.min(oppskriftregister.size(),(page)*pageSize);
 
-        return oppskriftListe.subList(from, to);
+        return oppskriftregister.subList(from, to);
     }
 
-    public int numberOfPages(int pageSize) {
-        return (int)Math.ceil((double) oppskriftListe.size() / pageSize);
+    //Kalkulere antall sider som trengs for å vise alle oppskrifter (f.eks. 50 oppskrifter trenger 5 sider med 10 oppskrifter på hver)
+    public int numberOfPages(int pageSize, List<Oppskrift> oppskriftregister) {
+        return (int)Math.ceil((double) oppskriftregister.size() / pageSize);
     }
 
+    //Hente en spesifikk oppskrift utifra navn
     public Oppskrift getOppskriftByName(String navn) {
         for (Oppskrift oppskrift : oppskriftListe) {
             if (oppskrift.getOppskriftstittel().equals(navn)) {
@@ -70,23 +74,34 @@ public class OppskriftRegister {
     @GetMapping("/oppskrifter")
     public String oppskrifterGet (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page) {
         if (session.isNew()) {
-            session.setAttribute("allergi", "ingenting");
+            session.setAttribute("allergi", "   ");
         }
         int pageSize = 10;
-        model.addAttribute("oppskrifterOnPage",  getPage(Integer.parseInt(page), pageSize));
-        model.addAttribute("currentPage", Integer.parseInt(page));
-        model.addAttribute("totalNumberOfPages", numberOfPages(pageSize));
+        session.setAttribute("oppskrifterOnPage",  getPage(Integer.parseInt(page), pageSize, oppskriftListe));
+        session.setAttribute("currentPage", Integer.parseInt(page));
+        session.setAttribute("totalNumberOfPages", numberOfPages(pageSize, oppskriftListe));
         return "oppskrifter";
     }
 
     @PostMapping("/oppskrifter")
     public String oppskrifterPost (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page, @RequestParam(required = false, defaultValue = "   ", name = "allergi") String allergi) {
         int pageSize = 10;
-        model.addAttribute("oppskrifterOnPage",  getPage(Integer.parseInt(page), pageSize));
-        model.addAttribute("currentPage", Integer.parseInt(page));
-        model.addAttribute("totalNumberOfPages", numberOfPages(pageSize));
+        List<Oppskrift> oppskriftregister = new ArrayList<>();
+        if (allergi.equals("   ")) {
+            oppskriftregister = getOppskriftListe();
+        } else {
+            for (Oppskrift oppskrift : oppskriftListe) {
+                if (!oppskrift.getAllergier().equals(allergi)) {
+                    oppskriftregister.add(oppskrift);
+                }
+            }
+            page = "1";
+        }
+        session.setAttribute("oppskrifterOnPage",  getPage(Integer.parseInt(page), pageSize, oppskriftregister));
+        session.setAttribute("currentPage", Integer.parseInt(page));
+        session.setAttribute("totalNumberOfPages", numberOfPages(pageSize, oppskriftregister));
         session.setAttribute("allergi", allergi);
-        return "oppskrifter";
+        return "redirect:/oppskrifter?page=" + page;
     }
 
 
