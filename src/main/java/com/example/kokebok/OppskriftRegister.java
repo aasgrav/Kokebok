@@ -28,7 +28,7 @@ public class OppskriftRegister {
         allergier.add("");
 
         for (int i = 1; i <= 50; i++) {
-            oppskriftListe.add(new Oppskrift("Oppskrift " + i, ingredienser, allergier.get(i % 4)));
+            oppskriftListe.add(new Oppskrift("Oppskrift " + i, ingredienser, allergier.get(i % 4), "Gjør dette og dette."));
         }
     }
 
