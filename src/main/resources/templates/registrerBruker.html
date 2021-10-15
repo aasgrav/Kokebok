@@ -18,11 +18,10 @@
 
 <h1>Registrer ny bruker</h1>
 
+<p>Brukernavn må være mellom 6 og 15 karakterer. Passordet må bestå av både tall og bokstaver.</p>
+
 <!--<form th:action="@{/bruker/registrer}" method=POST>-->
 <form action="/bruker/registrer" method=POST>
-
-<!--    Kan på sikt legge inn fornavn og etternavn. Men da må disse bli stående igjen i koden hvis man
-lager et brukernavn som allerede er tatt i bruk-->
 
     <label for="brukernavn">Brukernavn</label>
     <input type ="text" name="brukernavn" id="brukernavn"> <br><br>

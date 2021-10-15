@@ -94,9 +94,8 @@ public class BrukerRegister {
         Oppskrift oppskrift = oppskriftRegister.getOppskriftByName(oppskriftTittel);
         bruker.getFavorittOppskrifter().add(oppskrift);
 
-        return "redirect:/oppskrifter?page=" + page;
+        return "redirect:/oppskrift?page="+page+"&oppskriftsnavn="+oppskriftTittel;
     }
-
 
 }
 
