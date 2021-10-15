@@ -36,7 +36,7 @@
     </form>
     <div class="oppskrifter">
         <div th:each="oppskrift : ${session.oppskrifterOnPage}" class="oppskrifterInfoBox">
-            <a th:if="${!oppskrift.getAllergier().contains(session.allergi)}" class="oppskriftslink" th:href="'/oppskrift?page=' + ${session.currentPage} + '&oppskriftsnavn=' + ${oppskrift.getOppskriftstittel()}">
+            <a  class="oppskriftslink" th:href="'/oppskrift?page=' + ${session.currentPage} + '&oppskriftsnavn=' + ${oppskrift.getOppskriftstittel()}">
                 <p class="oppskriftstittel" th:text="${oppskrift.getOppskriftstittel()}"></p>
             </a>
         </div>

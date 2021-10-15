@@ -77,9 +77,23 @@ public class OppskriftRegister {
             session.setAttribute("allergi", "   ");
         }
         int pageSize = 10;
-        session.setAttribute("oppskrifterOnPage",  getPage(Integer.parseInt(page), pageSize, oppskriftListe));
+
+        String allergi = (String) session.getAttribute("allergi");
+
+        List<Oppskrift> oppskriftregister = new ArrayList<>();
+        if (allergi.equals("   ")) {
+            oppskriftregister = getOppskriftListe();
+        } else {
+            for (Oppskrift oppskrift : getOppskriftListe()) {
+                if (!oppskrift.getAllergier().equals(allergi)) {
+                    oppskriftregister.add(oppskrift);
+                }
+            }
+        }
+
+        session.setAttribute("oppskrifterOnPage",  getPage(Integer.parseInt(page), pageSize, oppskriftregister));
         session.setAttribute("currentPage", Integer.parseInt(page));
-        session.setAttribute("totalNumberOfPages", numberOfPages(pageSize, oppskriftListe));
+        session.setAttribute("totalNumberOfPages", numberOfPages(pageSize, oppskriftregister));
         return "oppskrifter";
     }
 
@@ -90,18 +104,20 @@ public class OppskriftRegister {
         if (allergi.equals("   ")) {
             oppskriftregister = getOppskriftListe();
         } else {
-            for (Oppskrift oppskrift : oppskriftListe) {
+            for (Oppskrift oppskrift : getOppskriftListe()) {
                 if (!oppskrift.getAllergier().equals(allergi)) {
                     oppskriftregister.add(oppskrift);
                 }
             }
             page = "1";
         }
+
         session.setAttribute("oppskrifterOnPage",  getPage(Integer.parseInt(page), pageSize, oppskriftregister));
         session.setAttribute("currentPage", Integer.parseInt(page));
         session.setAttribute("totalNumberOfPages", numberOfPages(pageSize, oppskriftregister));
         session.setAttribute("allergi", allergi);
-        return "redirect:/oppskrifter?page=" + page;
+
+        return "oppskrifter";
     }
 
 

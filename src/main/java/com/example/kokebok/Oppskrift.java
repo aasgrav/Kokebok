@@ -87,4 +87,7 @@ public class Oppskrift {
         this.oppskriftstekst = oppskriftstekst;
     }
 
+    public String toString() {
+        return oppskriftstittel + ": " + allergier;
+    }
 }
