@@ -76,11 +76,14 @@ public class BrukerRegister {
         }
     }
 
+    //Sender oss til til registrer ny bruker siden
     @PostMapping("/gåTilRegistrering")
     public String tilReg() {
         return "redirect:/bruker/registrer";
     }
 
+
+    //Logger ut bruker
     @PostMapping("/loggUt")
     public String loggUt(HttpSession session){
         session.setAttribute("innloggetBruker", null);
@@ -88,7 +91,7 @@ public class BrukerRegister {
     }
 
 
-
+//Skal brukers til mineLister siden som ikke er oppe og kjører enda
     public List<Oppskrift> getPageMine(int page, int pageSize) {
         int from = Math.max(0,(page-1)*pageSize);
         int to = Math.min(oppskriftListeFavBruk.size(),(page)*pageSize);
@@ -107,26 +110,25 @@ public class BrukerRegister {
         return "mineOppskrifter";
     }
 
+
     @PostMapping("/favoriserOppskrift")
     public String favoriserOppskrift(@RequestParam String oppskriftTittel, @RequestParam String page, HttpSession session){
 
         Bruker bruker = (Bruker) session.getAttribute("innloggetBruker");
-        //Oppskrift oppskrift = oppskriftListeFavBruk.getOppskriftByName(oppskriftTittel);
-
         Oppskrift oppskrift = oppskriftRegister.getOppskriftByName(oppskriftTittel);
-
         bruker.getFavorittOppskrifter().add(oppskrift);
 
         return "redirect:/oppskrift?page="+page+"&oppskriftsnavn="+oppskriftTittel;
     }
 
+
     //Side med markerte favorittoppskrifter
     @GetMapping("/mineOppskrifter")
     public String mineOppskrifterGet (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page) {
-        int pageSize = 10;
+      /*  int pageSize = 10;
         model.addAttribute("oppskrifterOnPageMine",  getPage(Integer.parseInt(page), pageSize));
         model.addAttribute("currentPageMine", Integer.parseInt(page));
-        model.addAttribute("totalNumberOfPagesMine", numberOfPages(pageSize));
+        model.addAttribute("totalNumberOfPagesMine", numberOfPages(pageSize));*/
         return "mineOppskrifter";
     }
 
