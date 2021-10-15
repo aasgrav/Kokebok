@@ -14,10 +14,10 @@ import java.util.Map;
 public class BrukerRegister {
 
     //Bruke hashmap til liste over alle brukere. String er brukernavn og unik key. Bruker er objektet bruker.
+
     Map<String, Bruker> brukere = new HashMap<>();
+
     @Autowired OppskriftRegister oppskriftRegister;
-
-
 
 
     //Sjekker om brukernavn allerede ligger i lista ved opprettelse av ny bruker

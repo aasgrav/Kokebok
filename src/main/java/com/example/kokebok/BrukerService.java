@@ -1,24 +1,34 @@
 package com.example.kokebok;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BrukerService {
 
-    public static boolean sjekkBrukerData(String brukernavn, String passord, String gjentaPassord){ //usikker på om vi skal beholde denne som static
-        boolean reglerOverholdt =true;
+    @Autowired Map<String, Bruker> brukere;
 
-        if(!passord.equals(gjentaPassord)){
+
+    public static boolean sjekkBrukerData(String brukernavn, String passord, String gjentaPassord) { //usikker på om vi skal beholde denne som static
+        boolean reglerOverholdt = true;
+
+        if (!passord.equals(gjentaPassord)) {
             reglerOverholdt = false;
         }
-        if(brukernavn.length()>15  && brukernavn.length()<6){
+        if (brukernavn.length() > 15 || brukernavn.length() < 6) {
             reglerOverholdt = false;
         }
-        if(!passord.matches(".*[a-zA-Z].*")){
+        if (!passord.matches(".*[a-zA-Z].*")) {
             reglerOverholdt = false;
         }
-        if(!passord.matches(".*\\d.*")){
+        if (!passord.matches(".*\\d.*")) {
             reglerOverholdt = false;
         }
+        /*if (brukere.containsKey(brukernavn)) {
+            reglerOverholdt = false;
+        }*/
         return reglerOverholdt;
     }
 }
