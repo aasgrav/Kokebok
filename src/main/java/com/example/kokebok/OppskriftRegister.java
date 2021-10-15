@@ -125,6 +125,4 @@ public class OppskriftRegister {
         return "oppskriftDetaljside";
     }
 
-
-
 }
