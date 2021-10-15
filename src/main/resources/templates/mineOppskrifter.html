@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mine oppskrifter</title>
+    <link rel="stylesheet" th:href="@{/oppskrifter.css}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a th:href="'/forside'">Forside</a>
+            <a th:href="'/oppskrifter'">Oppskrifter</a>
+          <!--  <a th:href="'/bruker/loggInn'">Logg inn</a>
+            <a th:href="'/bruker/registrer'">Registrer ny bruker</a>-->
+        </nav>
+        <div th:if="${session.innloggetBruker!=null}">
+            <p th:text="${session.innloggetBruker.getBrukernavn()}"></p>
+            <form action="/bruker/loggUt" method=POST>
+                <input type="submit" value="Logg ut">
+            </form>
+        </div>
+    </header>
+    <h1>Favoriserte oppskrifter</h1>
+    <div class="oppskrifter">
+        <div th:each="oppskrift : ${oppskrifterOnPage}" class="oppskrifterInfoBox">
+            <a class="oppskriftslink" th:href="'/oppskrift?page=' + ${currentPage} + '&oppskriftsnavn=' + ${oppskrift.oppskriftstittel}">
+                <p class="oppskriftstittel" th:text="${oppskrift.oppskriftstittel}"></p>
+            </a>
+        </div>
+    </div>
+    <div class="pagination">
+        <a th:if="${currentPage > 1}" th:href="'/oppskrifter?page=' + ${currentPage - 1}">Previous page</a>
+        <span>&nbsp;&nbsp;</span>
+        <a th:if="${currentPage > 1}" th:each="page : ${#numbers.sequence(1,currentPage - 1)}" th:text="${page}" th:href="'/oppskrifter?page=' + ${page}"></a>
+        <span class="currentPage" th:text="${currentPage}"></span>
+        <a th:if="${currentPage < totalNumberOfPages}" th:each="page : ${#numbers.sequence(currentPage + 1,totalNumberOfPages)}" th:text="${page}" th:href="'/oppskrifter?page=' + ${page}"></a>
+        <span>&nbsp;&nbsp;</span>
+        <a th:if="${currentPage < totalNumberOfPages}" th:href="'/oppskrifter?page=' + ${currentPage + 1}">Next page</a>
+    </div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.example.kokebok;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -14,12 +15,14 @@ public class BrukerRegister {
 
     //Bruke hashmap til liste over alle brukere. String er brukernavn og unik key. Bruker er objektet bruker.
     Map<String, Bruker> brukere;
+    OppskriftRegister oppskriftRegister;
 
 //    BrukerService brukerService;
 
-    public BrukerRegister(/*BrukerService brukerService*/) {
+    public BrukerRegister(OppskriftRegister oppskriftRegister) {
 //        this.brukerService = brukerService;
         this.brukere = new HashMap<>();
+        this.oppskriftRegister = oppskriftRegister;
     }
 
     private boolean eksistererBrukernavn(String brukernavn) {
@@ -77,6 +80,21 @@ public class BrukerRegister {
     public String loggUt(HttpSession session){
         session.setAttribute("innloggetBruker", null);
         return "redirect:/forside";
+    }
+
+    @GetMapping ("/mineLister")
+    public String tilMinListe(){
+        return "mineOppskrifter";
+    }
+
+    @PostMapping("/favoriserOppskrift")
+    public String favoriserOppskrift(@RequestParam String oppskriftTittel, @RequestParam String page, HttpSession session){
+
+        Bruker bruker = (Bruker) session.getAttribute("innloggetBruker");
+        Oppskrift oppskrift = oppskriftRegister.getOppskriftByName(oppskriftTittel);
+        bruker.getFavorittOppskrifter().add(oppskrift);
+
+        return "redirect:/oppskrifter?page=" + page;
     }
 
 
