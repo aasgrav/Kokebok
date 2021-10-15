@@ -8,8 +8,25 @@ body {
     background-color: beige;
 }
 
+.navigationBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 768px;
+    padding: 20px 0;
+    border-bottom: solid 2px grey;
+}
+
 nav a {
     text-decoration: none;
     color: grey;
-    padding-right: 20px;
+    padding: 0 20px;
+}
+
+.loggutknapp {
+    background-color: beige;
+    color: black;
+    border: solid 1px black;
+    border-radius: 5px;
+    padding: 10px;
 }

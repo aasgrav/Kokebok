@@ -6,23 +6,25 @@
     <link rel="stylesheet" th:href="@{/oppskrifter.css}">
 </head>
 <body>
-    <header>
-        <nav>
+    <nav class="navigationBar">
+        <div class="navigationVenstre">
             <a th:href="'/forside'">Forside</a>
-<!--            <a th:href="'/oppskrifter'">Oppskrifter</a>-->
+            <a th:href="'/oppskrifter'">Oppskrifter</a>
+        </div>
+        <div class="navigationHøyre" th:if="${session.innloggetBruker==null}">
             <a th:href="'/bruker/loggInn'">Logg inn</a>
             <a th:href="'/bruker/registrer'">Registrer ny bruker</a>
-<!--            <div th:if="${session.innloggetBruker!=null}">
-                <p th:href='/mineOppskrifter'>Mine favoriserte oppskrifter</p>
-            </div>-->
-        </nav>
+        </div>
         <div th:if="${session.innloggetBruker!=null}">
-            <p th:text="${session.innloggetBruker.getBrukernavn()}"></p>
+            <span>Innlogget som </span>
+            <span th:text="${session.innloggetBruker.getBrukernavn()}"></span>
+        </div>
+        <div th:if="${session.innloggetBruker!=null}">
             <form action="/bruker/loggUt" method=POST>
-                <input type="submit" value="Logg ut">
+                <input class="loggutknapp" type="submit" value="Logg ut">
             </form>
         </div>
-    </header>
+    </nav>
     <h1>Oppskrifter</h1>
     <form th:action="'/oppskrifter?page=' + ${session.currentPage}" method=POST>
         <label for="allergi">Allergi: </label>
