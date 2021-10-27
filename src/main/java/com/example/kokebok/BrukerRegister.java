@@ -67,7 +67,6 @@ public class BrukerRegister {
         return "redirect:/bruker/registrer";
     }
 
-
     //Logger ut bruker
     @PostMapping("/loggUt")
     public String loggUt(HttpSession session){
@@ -75,13 +74,10 @@ public class BrukerRegister {
         return "redirect:/forside";
     }
 
-
-
     @GetMapping ("/mineLister")
     public String tilMinListe(){
         return "mineOppskrifter";
     }
-
 
     @PostMapping("/favoriserOppskrift")
     public String favoriserOppskrift(@RequestParam String oppskriftTittel, @RequestParam String page, HttpSession session){
@@ -94,7 +90,6 @@ public class BrukerRegister {
         return "redirect:/oppskrift?page="+page+"&oppskriftsnavn="+oppskriftTittel;
     }
 
-
     //Side med markerte favorittoppskrifter
     @GetMapping("/mineOppskrifter")
     public String mineOppskrifterGet (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page) {
@@ -105,8 +100,6 @@ public class BrukerRegister {
         session.setAttribute("totalNumberOfPagesMine", oppskriftRegister.numberOfPages(pageSize, bruker.getFavorittOppskrifter()));
         return "mineOppskrifter";
     }
-
-
 
 
 }
