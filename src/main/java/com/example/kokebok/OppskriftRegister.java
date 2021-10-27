@@ -1,5 +1,6 @@
 package com.example.kokebok;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +14,14 @@ import java.util.List;
 @Controller
 public class OppskriftRegister {
 
-    private List<Oppskrift> oppskriftListe = new ArrayList<>();
+    @Autowired
+    private OppskriftRepository oppskriftRepository;
 
-    //Oppretting av oppskriftsregister
+
+    //private List<Oppskrift> oppskriftListe = new ArrayList<>();
+
+
+/*    //Oppretting av dummy oppskriftsregister
     public OppskriftRegister() {
 //        Faker faker = new Faker();
         List<String> ingredienser = new ArrayList<String>();
@@ -33,13 +39,16 @@ public class OppskriftRegister {
         for (int i = 1; i <= 50; i++) {
             oppskriftListe.add(new Oppskrift("Oppskrift " + i, ingredienser, allergier.get(i % 4), "Gjør dette og dette."));
         }
-    }
+    }*/
 
     public void leggTilOppskrift(Oppskrift oppskrift) {
-        oppskriftListe.add(oppskrift);
+        // TODO: lagre oppskrift i databasen (save)
+        oppskriftRepository.save(oppskrift);
+        //oppskriftListe.add(oppskrift);
     }
 
     public List<Oppskrift> getOppskriftListe() {
+        List<Oppskrift> oppskriftListe = (List<Oppskrift>) oppskriftRepository.findAll();
         return oppskriftListe;
     }
 
@@ -58,12 +67,13 @@ public class OppskriftRegister {
 
     //Hente en spesifikk oppskrift utifra navn
     public Oppskrift getOppskriftByName(String navn) {
-        for (Oppskrift oppskrift : oppskriftListe) {
+/*        for (Oppskrift oppskrift : getOppskriftListe()) {
             if (oppskrift.getOppskriftstittel().equals(navn)) {
                 return oppskrift;
             }
-        }
-        return null;
+        }*/
+        Oppskrift oppskrift = oppskriftRepository.findOppskriftByOppskriftstittel(navn);
+        return oppskrift;
     }
 
     //Hovedside med oversikt over alle oppskrifter
@@ -72,11 +82,11 @@ public class OppskriftRegister {
         if (session.isNew()) {
             session.setAttribute("allergi", "   ");
         }
-        int pageSize = 10;
+        int pageSize = 2;
 
         String allergi = (String) session.getAttribute("allergi");
 
-        List<Oppskrift> oppskriftregister = new ArrayList<>();
+        /*List<Oppskrift> oppskriftregister = new ArrayList<>();
         if (allergi.equals("   ")) {
             oppskriftregister = getOppskriftListe();
         } else {
@@ -85,7 +95,10 @@ public class OppskriftRegister {
                     oppskriftregister.add(oppskrift);
                 }
             }
-        }
+        }*/
+
+        List<Oppskrift> oppskriftregister = oppskriftRepository.findAllByAllergierIsNot(allergi);
+
 
         session.setAttribute("oppskrifterOnPage",  getPage(Integer.parseInt(page), pageSize, oppskriftregister));
         session.setAttribute("currentPage", Integer.parseInt(page));
@@ -95,8 +108,8 @@ public class OppskriftRegister {
 
     @PostMapping("/oppskrifter")
     public String oppskrifterPost (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page, @RequestParam(required = false, defaultValue = "   ", name = "allergi") String allergi) {
-        int pageSize = 10;
-        List<Oppskrift> oppskriftregister = new ArrayList<>();
+        int pageSize = 2;
+/*        List<Oppskrift> oppskriftregister = new ArrayList<>();
         if (allergi.equals("   ")) {
             oppskriftregister = getOppskriftListe();
         } else {
@@ -106,7 +119,10 @@ public class OppskriftRegister {
                 }
             }
             page = "1";
-        }
+        }*/
+
+        List<Oppskrift> oppskriftregister = oppskriftRepository.findAllByAllergierIsNot(allergi);
+        page = "1";
 
         session.setAttribute("oppskrifterOnPage",  getPage(Integer.parseInt(page), pageSize, oppskriftregister));
         session.setAttribute("currentPage", Integer.parseInt(page));

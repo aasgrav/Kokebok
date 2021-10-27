@@ -3,46 +3,25 @@ package com.example.kokebok;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "oppskrifter")
 public class Oppskrift {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     private String oppskriftstittel;
-    private List<String> ingredienser;
+    private String ingredienser;
     private String allergier;
-    private Kategori kategori;
+    private String kategori;
     private String oppskriftstekst;
 
+    public Oppskrift() {
 
-    //Constructors (override) - minimumsinfo er oppskriftstittel
-    public Oppskrift(String oppskriftstittel, List<String> ingredienser, String allergier, Kategori kategori, String oppskriftstekst) {
-        this.oppskriftstittel = oppskriftstittel;
-        this.ingredienser = ingredienser;
-        this.allergier = allergier;
-        this.kategori = kategori;
-        this.oppskriftstekst = oppskriftstekst;
-    }
-
-    public Oppskrift(String oppskriftstittel, List<String> ingredienser, String allergier, String oppskriftstekst) {
-        this.oppskriftstittel = oppskriftstittel;
-        this.ingredienser = ingredienser;
-        this.allergier = allergier;
-        this.oppskriftstekst = oppskriftstekst;
-    }
-
-    public Oppskrift(String oppskriftstittel, List<String> ingredienser, String oppskriftstekst) {
-        this.oppskriftstittel = oppskriftstittel;
-        this.ingredienser = ingredienser;
-        this.oppskriftstekst = oppskriftstekst;
-    }
-
-    public Oppskrift(String oppskriftstittel, List<String> ingredienser) {
-        this.oppskriftstittel = oppskriftstittel;
-        this.ingredienser = ingredienser;
-    }
-
-    public Oppskrift(String oppskriftstittel) {
-        this.oppskriftstittel = oppskriftstittel;
     }
 
 
@@ -55,11 +34,11 @@ public class Oppskrift {
         this.oppskriftstittel = oppskriftstittel;
     }
 
-    public List<String> getIngredienser() {
+    public String getIngredienser() {
         return ingredienser;
     }
 
-    public void setIngredienser(List<String> ingredienser) {
+    public void setIngredienser(String ingredienser) {
         this.ingredienser = ingredienser;
     }
 
@@ -71,11 +50,11 @@ public class Oppskrift {
         this.allergier = allergier;
     }
 
-    public Kategori getKategori() {
+    public String getKategori() {
         return kategori;
     }
 
-    public void setKategori(Kategori kategori) {
+    public void setKategori(String kategori) {
         this.kategori = kategori;
     }
 
