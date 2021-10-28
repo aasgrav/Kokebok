@@ -16,7 +16,8 @@ public class OppskriftRegister {
     @Autowired
     private OppskriftRepository oppskriftRepository;
 
-    @Autowired OppskriftService oppskriftService;
+    @Autowired
+    private OppskriftService oppskriftService;
 
 
     public void leggTilOppskrift(Oppskrift oppskrift) {
@@ -42,28 +43,30 @@ public class OppskriftRegister {
         if (session.isNew()) {
             session.setAttribute("allergi", "");
         }
-        int pageSize = 2;
+        int pageSize = 10;
 
         String allergi = (String) session.getAttribute("allergi");
 
-        List<Oppskrift> oppskriftregister = oppskriftService.findPageByAllergierIsNot(allergi, Integer.parseInt(page), pageSize);
+        List<Oppskrift> oppskriftregisterPage = oppskriftService.findPageByAllergierIsNot(allergi, Integer.parseInt(page), pageSize);
+        List<Oppskrift> oppskriftregisterAll = oppskriftRepository.findAllByAllergierIsNot(allergi);
 
-        session.setAttribute("oppskrifterOnPage", oppskriftregister);
+        session.setAttribute("oppskrifterOnPage", oppskriftregisterPage);
         session.setAttribute("currentPage", Integer.parseInt(page));
-        session.setAttribute("totalNumberOfPages", oppskriftService.numberOfPages(pageSize, oppskriftregister));
+        session.setAttribute("totalNumberOfPages", oppskriftService.numberOfPages(pageSize, oppskriftregisterAll));
         return "oppskrifter";
     }
 
     @PostMapping("/oppskrifter")
     public String oppskrifterPost (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page, @RequestParam(required = false, defaultValue = "", name = "allergi") String allergi) {
-        int pageSize = 2;
+        int pageSize = 10;
 
-        List<Oppskrift> oppskriftregister = oppskriftService.findPageByAllergierIsNot(allergi, Integer.parseInt(page), pageSize);
+        List<Oppskrift> oppskriftregisterPage = oppskriftService.findPageByAllergierIsNot(allergi, Integer.parseInt(page), pageSize);
+        List<Oppskrift> oppskriftregisterAll = oppskriftRepository.findAllByAllergierIsNot(allergi);
         page = "1";
 
-        session.setAttribute("oppskrifterOnPage", oppskriftService.getPage(Integer.parseInt(page), pageSize, oppskriftregister));
+        session.setAttribute("oppskrifterOnPage", oppskriftregisterPage);
         session.setAttribute("currentPage", Integer.parseInt(page));
-        session.setAttribute("totalNumberOfPages", oppskriftService.numberOfPages(pageSize, oppskriftregister));
+        session.setAttribute("totalNumberOfPages", oppskriftService.numberOfPages(pageSize, oppskriftregisterAll));
         session.setAttribute("allergi", allergi);
 
         return "oppskrifter";

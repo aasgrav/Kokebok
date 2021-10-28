@@ -17,8 +17,6 @@ public class BrukerRegister {
 
     Map<String, Bruker> brukere = new HashMap<>();
 
-    @Autowired OppskriftRegister oppskriftRegister;
-
     @Autowired OppskriftRepository oppskriftRepository;
 
     @Autowired OppskriftService oppskriftService;
