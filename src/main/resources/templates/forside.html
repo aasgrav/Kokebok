@@ -10,6 +10,7 @@
     <div class="navigationVenstre">
         <a th:href="'/forside'">Forside</a>
         <a th:href="'/oppskrifter'">Oppskrifter</a>
+        <a th:if="${session.innloggetBruker!=null}" th:href="'/bruker/mineOppskrifter'">Mine favoriserte oppskrifter</a>
     </div>
     <div class="navigationHøyre" th:if="${session.innloggetBruker==null}">
         <a th:href="'/bruker/loggInn'">Logg inn</a>

@@ -8,23 +8,45 @@ body {
     background-color: beige;
 }
 
-.oppskriftslink {
-    text-decoration: none;
-    color: black;
+
+.navigationBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 768px;
+    padding: 20px 0;
+    border-bottom: solid 2px grey;
 }
 
 nav a {
     text-decoration: none;
     color: grey;
-    padding-right: 20px;
+    padding: 0 20px;
 }
+
+.loggutknapp {
+    background-color: beige;
+    color: grey;
+    border: solid 1px grey;
+    border-radius: 5px;
+    padding: 5px;
+}
+
 
 .backlink {
     text-decoration: none;
-    color: black;
+    color: grey;
     margin-top: 20px;
+    margin-bottom: 20px;
     padding: 20px 0;
 }
+
+
+.oppskriftsinfo {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 
 .pagination {
     width: 100%;
