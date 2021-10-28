@@ -3,9 +3,11 @@ package com.example.kokebok;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,9 +18,6 @@ public class BrukerRegister {
     //Bruke hashmap til liste over alle brukere. String er brukernavn og unik key. Bruker er objektet bruker.
 
     //Map<String, Bruker> brukere = new HashMap<>();
-
-    @Autowired
-    OppskriftRegister oppskriftRegister;
 
     @Autowired OppskriftRepository oppskriftRepository;
 
@@ -39,9 +38,9 @@ public class BrukerRegister {
 
     //Registrerer ny bruker.
     @PostMapping("/registrer")
-    public String registrerBruker(HttpSession session, @RequestParam String brukernavn, @RequestParam String passord, @RequestParam String gjentaPassord) { //Her fungerte ikke PathVariable
+    public String registrerBruker(HttpSession session, @Valid @RequestParam String brukernavn, @RequestParam String passord, @RequestParam String gjentaPassord, BindingResult bindingResult) { //Her fungerte ikke PathVariable
 
-        if (!BrukerService.sjekkBrukerData(brukernavn, passord, gjentaPassord)) {
+        if (!BrukerService.sjekkBrukerData(brukernavn, passord, gjentaPassord) || bindingResult.hasErrors()) {
             return "registrerBruker";
         } else {
             session.setAttribute("innloggetBruker", brukerRepository.save(new Bruker(brukernavn,passord)));

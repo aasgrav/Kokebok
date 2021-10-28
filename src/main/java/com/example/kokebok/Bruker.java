@@ -1,16 +1,7 @@
 package com.example.kokebok;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.Size;
 
 
 
@@ -21,6 +12,7 @@ public class Bruker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Size(min = 6, max = 15)
     String brukernavn;  //Blir key i Hashmap.
     String passord;
     // String fornavn

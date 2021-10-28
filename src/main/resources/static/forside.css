@@ -25,8 +25,8 @@ nav a {
 
 .loggutknapp {
     background-color: beige;
-    color: black;
-    border: solid 1px black;
+    color: grey;
+    border: solid 1px grey;
     border-radius: 5px;
-    padding: 10px;
+    padding: 5px;
 }
