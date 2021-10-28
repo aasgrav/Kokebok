@@ -15,7 +15,10 @@ public class BrukerRegister {
 
     //Bruke hashmap til liste over alle brukere. String er brukernavn og unik key. Bruker er objektet bruker.
 
-    Map<String, Bruker> brukere = new HashMap<>();
+    //Map<String, Bruker> brukere = new HashMap<>();
+
+    @Autowired
+    OppskriftRegister oppskriftRegister;
 
     @Autowired OppskriftRepository oppskriftRepository;
 
@@ -23,10 +26,10 @@ public class BrukerRegister {
 
 
     //Sjekker om brukernavn allerede ligger i lista ved opprettelse av ny bruker
-    private boolean eksistererBrukernavn(String brukernavn) {
-        if (brukere.containsKey(brukernavn)) return true;
+/*    private boolean eksistererBrukernavn(String brukernavn) {
+        if (brukerRepository.findById(brukernavn).isPresent()) return true;
         else return false;
-    }
+    }*/
 
     //Sender oss til registrering av ny bruker siden
     @GetMapping("/registrer")
@@ -41,8 +44,7 @@ public class BrukerRegister {
         if (!BrukerService.sjekkBrukerData(brukernavn, passord, gjentaPassord)) {
             return "registrerBruker";
         } else {
-            brukere.put(brukernavn, new Bruker(brukernavn, passord));
-            session.setAttribute("innloggetBruker", brukere.get(brukernavn));
+            session.setAttribute("innloggetBruker", brukerRepository.save(new Bruker(brukernavn,passord)));
             return "redirect:/forside";
         }
     }
@@ -55,8 +57,10 @@ public class BrukerRegister {
     @PostMapping("/loggInn")
     public String loggInn(@RequestParam String brukernavn, @RequestParam String passord, HttpSession session) {
 
-        if (eksistererBrukernavn(brukernavn) && brukere.get(brukernavn).passord.equals(passord)) {
-            session.setAttribute("innloggetBruker", brukere.get(brukernavn));
+        Optional<Bruker> bruker2= brukerRepository.findById(brukernavn);
+
+        if (bruker2.isPresent() && bruker2.get().passord.equals(passord)) {
+            session.setAttribute("innloggetBruker", bruker2.get());
             return "redirect:/forside";
         } else {
             return "loggInn";
@@ -85,6 +89,12 @@ public class BrukerRegister {
     public String favoriserOppskrift(@RequestParam String oppskriftTittel, @RequestParam String page, HttpSession session){
 
         Bruker bruker = (Bruker) session.getAttribute("innloggetBruker");
+        //Oppskrift oppskrift = oppskriftRegister.getOppskriftByName(oppskriftTittel);
+
+
+
+/*      //Burde sjekke om oppskriften allerede er liket
+        bruker.getFavorittOppskrifter().add(oppskrift);*/
         Oppskrift oppskrift = oppskriftRepository.findOppskriftByOppskriftstittel(oppskriftTittel);
         //Burde sjekke om oppskriften allerede er liket
         bruker.getFavorittOppskrifter().add(oppskrift);
