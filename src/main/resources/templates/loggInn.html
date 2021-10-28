@@ -6,16 +6,29 @@
     <link rel="stylesheet" th:href="@{/loggInn.css}">
 </head>
 <body>
-<header>
-    <nav>
+
+<nav class="navigationBar">
+    <div class="navigationVenstre">
         <a th:href="'/forside'">Forside</a>
         <a th:href="'/oppskrifter'">Oppskrifter</a>
-        <!--    <a th:href="'/logginn'">Logg inn</a>-->
+        <a th:if="${session.innloggetBruker!=null}" th:href="'/bruker/mineOppskrifter'">Mine favoriserte oppskrifter</a>
+    </div>
+    <div class="navigationHøyre" th:if="${session.innloggetBruker==null}">
+        <a th:href="'/bruker/loggInn'">Logg inn</a>
         <a th:href="'/bruker/registrer'">Registrer ny bruker</a>
-    </nav>
-</header>
+    </div>
+    <div th:if="${session.innloggetBruker!=null}">
+        <span>Innlogget som </span>
+        <span th:text="${session.innloggetBruker.getBrukernavn()}"></span>
+    </div>
+    <div th:if="${session.innloggetBruker!=null}">
+        <form action="/bruker/loggUt" method=POST>
+            <input class="loggutknapp" type="submit" value="Logg ut">
+        </form>
+    </div>
+</nav>
 
-<form action="/bruker/loggInn" method=POST>
+<form class="loggInnForm" action="/bruker/loggInn" method=POST>
 
     <!--    Kan på sikt legge inn fornavn og etternavn. Men da må disse bli stående igjen i koden hvis man
     lager et brukernavn som allerede er tatt i bruk-->
@@ -30,7 +43,7 @@
 
 </form>
 
-<form action="/bruker/gåTilRegistrering" method=POST>
+<form class="knappTilRegistrering" action="/bruker/gåTilRegistrering" method=POST>
     <input type="submit" value="Registrer ny bruker">
 </form>
 

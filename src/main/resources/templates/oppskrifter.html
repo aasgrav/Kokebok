@@ -27,7 +27,7 @@
         </div>
     </nav>
     <h1>Oppskrifter</h1>
-    <form th:action="'/oppskrifter?page=' + ${session.currentPage}" method=POST>
+    <form class="allergiFilter" th:action="'/oppskrifter?page=' + ${session.currentPage}" method=POST>
         <label for="allergi">Allergi: </label>
         <select name="allergi" id="allergi">
             <option th:selected="${session.allergi == '   '}" value="   ">   </option>
