@@ -19,6 +19,10 @@ public class BrukerRegister {
 
     @Autowired OppskriftRegister oppskriftRegister;
 
+    @Autowired OppskriftRepository oppskriftRepository;
+
+    @Autowired OppskriftService oppskriftService;
+
 
     //Sjekker om brukernavn allerede ligger i lista ved opprettelse av ny bruker
     private boolean eksistererBrukernavn(String brukernavn) {
@@ -83,7 +87,7 @@ public class BrukerRegister {
     public String favoriserOppskrift(@RequestParam String oppskriftTittel, @RequestParam String page, HttpSession session){
 
         Bruker bruker = (Bruker) session.getAttribute("innloggetBruker");
-        Oppskrift oppskrift = oppskriftRegister.getOppskriftByName(oppskriftTittel);
+        Oppskrift oppskrift = oppskriftRepository.findOppskriftByOppskriftstittel(oppskriftTittel);
         //Burde sjekke om oppskriften allerede er liket
         bruker.getFavorittOppskrifter().add(oppskrift);
 
@@ -95,9 +99,9 @@ public class BrukerRegister {
     public String mineOppskrifterGet (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page) {
         int pageSize = 10;
         Bruker bruker = (Bruker)session.getAttribute("innloggetBruker");
-        session.setAttribute("oppskrifterOnPageMine", oppskriftRegister.getPage(Integer.parseInt(page), pageSize,bruker.getFavorittOppskrifter()));
+        session.setAttribute("oppskrifterOnPageMine", oppskriftService.getPage(Integer.parseInt(page), pageSize,bruker.getFavorittOppskrifter()));
         session.setAttribute("currentPageMine", Integer.parseInt(page));
-        session.setAttribute("totalNumberOfPagesMine", oppskriftRegister.numberOfPages(pageSize, bruker.getFavorittOppskrifter()));
+        session.setAttribute("totalNumberOfPagesMine", oppskriftService.numberOfPages(pageSize, bruker.getFavorittOppskrifter()));
         return "mineOppskrifter";
     }
 

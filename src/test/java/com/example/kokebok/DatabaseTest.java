@@ -21,8 +21,8 @@ public class DatabaseTest {
 
     @Test
     public void sjekkeAtFørsteOppskriftIDatabaseTabellOppskrifterErKålrabistappeMedAllergiLaktose() {
-        //Oppskrift oppskrift = oppskriftRepository.findOppskriftByOppskriftstittel("Kålrabistappe");
-        Oppskrift oppskrift = oppskriftRepository.findById(1).get();
+        Oppskrift oppskrift = oppskriftRepository.findOppskriftByOppskriftstittel("Kålrabistappe");
+        //Oppskrift oppskrift = oppskriftRepository.findById(1).get();
 
         Assert.assertEquals("Oppskrift skal være kålrabistappe", "Kålrabistappe", oppskrift.getOppskriftstittel());
         Assert.assertEquals("Kålrabistappe skal ha allergi laktose", "Laktose", oppskrift.getAllergier());
