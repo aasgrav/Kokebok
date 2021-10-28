@@ -3,13 +3,12 @@ package com.example.kokebok;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/bruker")
@@ -19,10 +18,18 @@ public class BrukerRegister {
 
     //Map<String, Bruker> brukere = new HashMap<>();
 
+    @Autowired
+    OppskriftRegister oppskriftRegister;
+
     @Autowired OppskriftRepository oppskriftRepository;
 
     @Autowired OppskriftService oppskriftService;
 
+    @Autowired
+    BrukerRepository brukerRepository;
+
+    @Autowired
+    FavorisertOppskrift_Repository favorisertOppskriftRepository;
 
     //Sjekker om brukernavn allerede ligger i lista ved opprettelse av ny bruker
 /*    private boolean eksistererBrukernavn(String brukernavn) {
@@ -38,9 +45,9 @@ public class BrukerRegister {
 
     //Registrerer ny bruker.
     @PostMapping("/registrer")
-    public String registrerBruker(HttpSession session, @Valid @RequestParam String brukernavn, @RequestParam String passord, @RequestParam String gjentaPassord, BindingResult bindingResult) { //Her fungerte ikke PathVariable
+    public String registrerBruker(HttpSession session, @RequestParam String brukernavn, @RequestParam String passord, @RequestParam String gjentaPassord) { //Her fungerte ikke PathVariable
 
-        if (!BrukerService.sjekkBrukerData(brukernavn, passord, gjentaPassord) || bindingResult.hasErrors()) {
+        if (!BrukerService.sjekkBrukerData(brukernavn, passord, gjentaPassord)) {
             return "registrerBruker";
         } else {
             session.setAttribute("innloggetBruker", brukerRepository.save(new Bruker(brukernavn,passord)));
@@ -88,21 +95,15 @@ public class BrukerRegister {
     public String favoriserOppskrift(@RequestParam String oppskriftTittel, @RequestParam String page, HttpSession session){
 
         Bruker bruker = (Bruker) session.getAttribute("innloggetBruker");
-        //Oppskrift oppskrift = oppskriftRegister.getOppskriftByName(oppskriftTittel);
-
-
-
-/*      //Burde sjekke om oppskriften allerede er liket
-        bruker.getFavorittOppskrifter().add(oppskrift);*/
         Oppskrift oppskrift = oppskriftRepository.findOppskriftByOppskriftstittel(oppskriftTittel);
-        //Burde sjekke om oppskriften allerede er liket
-        bruker.getFavorittOppskrifter().add(oppskrift);
+
+        favorisertOppskriftRepository.save(new FavorisertOppskrift(bruker,oppskrift));
 
         return "redirect:/oppskrift?page="+page+"&oppskriftsnavn="+oppskriftTittel;
     }
 
     //Side med markerte favorittoppskrifter
-    @GetMapping("/mineOppskrifter")
+/*    @GetMapping("/mineOppskrifter")
     public String mineOppskrifterGet (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page) {
         int pageSize = 10;
         Bruker bruker = (Bruker)session.getAttribute("innloggetBruker");
@@ -110,7 +111,7 @@ public class BrukerRegister {
         session.setAttribute("currentPageMine", Integer.parseInt(page));
         session.setAttribute("totalNumberOfPagesMine", oppskriftService.numberOfPages(pageSize, bruker.getFavorittOppskrifter()));
         return "mineOppskrifter";
-    }
+    }*/
 
 
 }
