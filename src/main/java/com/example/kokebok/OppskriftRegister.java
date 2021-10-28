@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -19,9 +18,7 @@ public class OppskriftRegister {
 
 
     public void leggTilOppskrift(Oppskrift oppskrift) {
-        // TODO: lagre oppskrift i databasen (save)
         oppskriftRepository.save(oppskrift);
-        //oppskriftListe.add(oppskrift);
     }
 
     public List<Oppskrift> getOppskriftListe() {

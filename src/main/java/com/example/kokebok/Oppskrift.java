@@ -1,10 +1,6 @@
 package com.example.kokebok;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "oppskrifter")
@@ -13,7 +9,6 @@ public class Oppskrift {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String oppskriftstittel;
     private String ingredienser;
     private String allergier;
