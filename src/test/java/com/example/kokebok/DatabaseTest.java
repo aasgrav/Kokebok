@@ -13,18 +13,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class DatabaseTest {
 
     @Autowired
-    private OppskriftRegister oppskriftRegister;
+    private OppskriftRepository oppskriftRepository;
+
+    @Test
+    public void contextLoads() {
+    }
 
     @Test
     public void sjekkeAtFørsteOppskriftIDatabaseTabellOppskrifterErKålrabistappeMedAllergiLaktose() {
-
-        Oppskrift oppskrift = oppskriftRegister.getOppskriftByName("Kålrabistappe");
-        //Oppskrift oppskrift = oppskriftRegister.findById(1);
+        //Oppskrift oppskrift = oppskriftRepository.findOppskriftByOppskriftstittel("Kålrabistappe");
+        Oppskrift oppskrift = oppskriftRepository.findById(1).get();
 
         Assert.assertEquals("Oppskrift skal være kålrabistappe", "Kålrabistappe", oppskrift.getOppskriftstittel());
         Assert.assertEquals("Kålrabistappe skal ha allergi laktose", "Laktose", oppskrift.getAllergier());
-
     }
-
 
 }
