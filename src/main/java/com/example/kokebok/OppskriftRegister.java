@@ -18,29 +18,6 @@ public class OppskriftRegister {
     private OppskriftRepository oppskriftRepository;
 
 
-    //private List<Oppskrift> oppskriftListe = new ArrayList<>();
-
-
-/*    //Oppretting av dummy oppskriftsregister
-    public OppskriftRegister() {
-//        Faker faker = new Faker();
-        List<String> ingredienser = new ArrayList<String>();
-        ingredienser.add("Smør");
-        ingredienser.add("Egg");
-        ingredienser.add("Sukker");
-        ingredienser.add("Mel");
-
-        List<String> allergier = new ArrayList<String>();
-        allergier.add("Nøtter");
-        allergier.add("Gluten");
-        allergier.add("Laktose");
-        allergier.add("");
-
-        for (int i = 1; i <= 50; i++) {
-            oppskriftListe.add(new Oppskrift("Oppskrift " + i, ingredienser, allergier.get(i % 4), "Gjør dette og dette."));
-        }
-    }*/
-
     public void leggTilOppskrift(Oppskrift oppskrift) {
         // TODO: lagre oppskrift i databasen (save)
         oppskriftRepository.save(oppskrift);
@@ -67,11 +44,6 @@ public class OppskriftRegister {
 
     //Hente en spesifikk oppskrift utifra navn
     public Oppskrift getOppskriftByName(String navn) {
-/*        for (Oppskrift oppskrift : getOppskriftListe()) {
-            if (oppskrift.getOppskriftstittel().equals(navn)) {
-                return oppskrift;
-            }
-        }*/
         Oppskrift oppskrift = oppskriftRepository.findOppskriftByOppskriftstittel(navn);
         return oppskrift;
     }
@@ -80,25 +52,13 @@ public class OppskriftRegister {
     @GetMapping("/oppskrifter")
     public String oppskrifterGet (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page) {
         if (session.isNew()) {
-            session.setAttribute("allergi", "   ");
+            session.setAttribute("allergi", "");
         }
         int pageSize = 2;
 
         String allergi = (String) session.getAttribute("allergi");
 
-        /*List<Oppskrift> oppskriftregister = new ArrayList<>();
-        if (allergi.equals("   ")) {
-            oppskriftregister = getOppskriftListe();
-        } else {
-            for (Oppskrift oppskrift : getOppskriftListe()) {
-                if (!oppskrift.getAllergier().equals(allergi)) {
-                    oppskriftregister.add(oppskrift);
-                }
-            }
-        }*/
-
         List<Oppskrift> oppskriftregister = oppskriftRepository.findAllByAllergierIsNot(allergi);
-
 
         session.setAttribute("oppskrifterOnPage",  getPage(Integer.parseInt(page), pageSize, oppskriftregister));
         session.setAttribute("currentPage", Integer.parseInt(page));
@@ -107,19 +67,8 @@ public class OppskriftRegister {
     }
 
     @PostMapping("/oppskrifter")
-    public String oppskrifterPost (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page, @RequestParam(required = false, defaultValue = "   ", name = "allergi") String allergi) {
+    public String oppskrifterPost (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page, @RequestParam(required = false, defaultValue = "", name = "allergi") String allergi) {
         int pageSize = 2;
-/*        List<Oppskrift> oppskriftregister = new ArrayList<>();
-        if (allergi.equals("   ")) {
-            oppskriftregister = getOppskriftListe();
-        } else {
-            for (Oppskrift oppskrift : getOppskriftListe()) {
-                if (!oppskrift.getAllergier().equals(allergi)) {
-                    oppskriftregister.add(oppskrift);
-                }
-            }
-            page = "1";
-        }*/
 
         List<Oppskrift> oppskriftregister = oppskriftRepository.findAllByAllergierIsNot(allergi);
         page = "1";

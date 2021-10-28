@@ -17,7 +17,7 @@ public class Oppskrift {
     private String oppskriftstittel;
     private String ingredienser;
     private String allergier;
-    private String kategori;
+    private Kategori kategori;
     private String oppskriftstekst;
 
     public Oppskrift() {
@@ -50,11 +50,11 @@ public class Oppskrift {
         this.allergier = allergier;
     }
 
-    public String getKategori() {
+    public Kategori getKategori() {
         return kategori;
     }
 
-    public void setKategori(String kategori) {
+    public void setKategori(Kategori kategori) {
         this.kategori = kategori;
     }
 
