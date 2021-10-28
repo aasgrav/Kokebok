@@ -62,7 +62,7 @@
     <form action="/bruker/favoriserOppskrift" method=POST>
         <input type="hidden" name="oppskriftTittel" th:value="${currentOppskrift.oppskriftstittel}">
         <input type="hidden" name="page" th:value="${currentPage}">
-        <input type="submit" value="Favoriser">
+        <input class="favoriserKnapp" type="submit" value="Favoriser">
     </form>
 </div>
 

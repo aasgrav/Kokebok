@@ -42,6 +42,15 @@ nav a {
 }
 
 
+.favoriserKnapp {
+    background-color: grey;
+    color: black;
+    border: solid 1px grey;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+
 .oppskriftsinfo {
     margin-top: 20px;
     margin-bottom: 20px;
