@@ -3,9 +3,11 @@ package com.example.kokebok;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -45,12 +47,12 @@ public class BrukerRegister {
 
     //Registrerer ny bruker.
     @PostMapping("/registrer")
-    public String registrerBruker(HttpSession session, @RequestParam String brukernavn, @RequestParam String passord, @RequestParam String gjentaPassord) { //Her fungerte ikke PathVariable
+    public String registrerBruker( HttpSession session, @Valid Bruker bruker, BindingResult bindingResult, @RequestParam String gjentaPassord) { //Her fungerte ikke PathVariable
 
-        if (!BrukerService.sjekkBrukerData(brukernavn, passord, gjentaPassord)) {
+        if (!BrukerService.sjekkBrukerData(bruker.getBrukernavn(), bruker.getPassord(), gjentaPassord) || bindingResult.hasErrors()) {
             return "registrerBruker";
         } else {
-            session.setAttribute("innloggetBruker", brukerRepository.save(new Bruker(brukernavn,passord)));
+            session.setAttribute("innloggetBruker", brukerRepository.save(bruker));
             return "redirect:/forside";
         }
     }

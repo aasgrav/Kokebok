@@ -15,9 +15,6 @@ public class BrukerService {
         if (!passord.equals(gjentaPassord)) {
             reglerOverholdt = false;
         }
-        if (brukernavn.length() > 15 || brukernavn.length() < 6) {
-            reglerOverholdt = false;
-        }
         if (!passord.matches(".*[a-zA-Z].*")) {
             reglerOverholdt = false;
         }

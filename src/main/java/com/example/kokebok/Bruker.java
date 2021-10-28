@@ -11,7 +11,6 @@ public class Bruker {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Size(min = 6, max = 15)
     String brukernavn;  //Blir key i Hashmap.
     String passord;
