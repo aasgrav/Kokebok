@@ -24,6 +24,7 @@ CREATE TABLE oppskrifter
 
 CREATE TABLE favoriserte_oppskrifter
 (
+    id int PRIMARY KEY AUTO_INCREMENT,
     brukernavn  varchar(20) NOT NULL,
     oppskriftid int         NOT NULL,
     FOREIGN KEY (brukernavn) REFERENCES brukere (brukernavn),

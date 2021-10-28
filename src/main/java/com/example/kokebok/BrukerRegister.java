@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/bruker")
@@ -105,7 +107,28 @@ public class BrukerRegister {
     }
 
     //Side med markerte favorittoppskrifter
-/*    @GetMapping("/mineOppskrifter")
+    @GetMapping("/mineOppskrifter")
+    public String mineOppskrifterGet (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page) {
+        int pageSize = 10;
+        Bruker bruker = (Bruker)session.getAttribute("innloggetBruker");
+        bruker = brukerRepository.findById(bruker.getBrukernavn()).get();
+        List <FavorisertOppskrift> brukersFavoritter= favorisertOppskriftRepository.findByBruker(bruker);
+
+        List<Oppskrift> favorittListe = brukersFavoritter.stream()
+                .map(f -> f.getOppskrift())
+                .collect(Collectors.toList());
+
+
+        session.setAttribute("oppskrifterOnPageMine", oppskriftService.getPage(Integer.parseInt(page), pageSize,favorittListe));
+        session.setAttribute("currentPageMine", Integer.parseInt(page));
+        session.setAttribute("totalNumberOfPagesMine", oppskriftService.numberOfPages(pageSize, favorittListe));
+        return "mineOppskrifter";
+    }
+
+
+
+
+    /*    @GetMapping("/mineOppskrifter")
     public String mineOppskrifterGet (HttpSession session, Model model, @RequestParam(required = false, defaultValue = "1") String page) {
         int pageSize = 10;
         Bruker bruker = (Bruker)session.getAttribute("innloggetBruker");

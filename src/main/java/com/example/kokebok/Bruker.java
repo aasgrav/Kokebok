@@ -49,4 +49,5 @@ public class Bruker {
 /*    public List<Oppskrift> getFavorittOppskrifter() {
         return favorittOppskrifter;
     }*/
+
 }
